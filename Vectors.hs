@@ -2,7 +2,7 @@
 module Vectors 
 where
 
---| This is the datatype definition of a vector 
+-- This is the datatype definition of a vector 
 data Vec n a where
     T    :: Vec VZero a
     (:.) :: (VNat n) => a -> (Vec n a) -> (Vec (VSucc n) a)
@@ -13,7 +13,26 @@ infixr 6 :.
 
 -- The Type level Arithmetics start here 
 
-class VNat a
+-- Bools 
+class VBool b
+
+data VTrue
+instance VBool VTrue
+
+data VFalse
+instance VBool VFalse
+
+
+vTrue :: VTrue
+vTrue  = undefined
+
+vFalse :: VFalse
+vFalse  = undefined
+
+
+
+-- Natural Numbers:
+class VNat n
 
 data VZero
 instance VNat VZero
@@ -33,11 +52,36 @@ vPred _ = undefined
 
 
 
-class (VNat a, VNat b, VNat ab) => VAdd a b ab | a b -> ab, a ab -> b
+-- Addition 
+class (VNat a, VNat b, VNat ab) 
+    => VAdd a b ab | a b -> ab, a ab -> b
     where vAdd :: a -> b -> ab
 
-instance (VNat b) => VAdd VZero b b
+instance (VNat b) 
+    => VAdd VZero b b
     where vAdd _ j = j
 
-instance (VAdd n j nj) => VAdd (VSucc n) j (VSucc nj)
+instance (VAdd n j nj) 
+    => VAdd (VSucc n) j (VSucc nj)
     where vAdd n j = vSucc $ vAdd (vPred n) j
+
+
+-- LessThen check (<=)
+class (VNat a, VNat b, VBool ab) 
+    => VLt a b ab | a b -> ab
+    where vLt :: a -> b -> ab
+
+instance (VNat n) 
+    => VLt VZero (VSucc n) VTrue
+    where vLt _ _ = vTrue
+
+instance VLt VZero VZero VTrue
+    where vLt _ _ = vTrue
+
+instance (VNat n) 
+    => VLt (VSucc n) VZero VFalse
+    where vLt _ _ = vFalse
+
+instance (VNat n, VNat j, VLt n j b) 
+    => VLt (VSucc n) (VSucc j) b
+    where vLt n j = vLt (vPred n) (vPred j)
