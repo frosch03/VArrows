@@ -1,0 +1,6 @@
+# Files of vim that could be ignored
+*.swp
+*~
+
+# My own type of ignored file
+_*
