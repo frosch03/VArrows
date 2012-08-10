@@ -85,3 +85,24 @@ instance (VNat n)
 instance (VNat n, VNat j, VLt n j b) 
     => VLt (VSucc n) (VSucc j) b
     where vLt n j = vLt (vPred n) (vPred j)
+
+
+-- Less check (<)
+class (VNat a, VNat b, VBool ab) 
+    => VLs a b ab | a b -> ab
+    where vLs :: a -> b -> ab
+
+instance (VNat n) 
+    => VLs VZero (VSucc n) VTrue
+    where vLs _ _ = vTrue
+
+instance VLs VZero VZero VFalse
+    where vLs _ _ = vFalse
+
+instance (VNat n) 
+    => VLs (VSucc n) VZero VFalse
+    where vLs _ _ = vFalse
+
+instance (VNat n, VNat j, VLs n j b) 
+    => VLs (VSucc n) (VSucc j) b
+    where vLs n j = vLs (vPred n) (vPred j)

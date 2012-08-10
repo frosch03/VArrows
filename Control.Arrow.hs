@@ -1,3 +1,4 @@
+{-# LANGUAGE FlexibleContexts #-}
 module Control.Arrow
 where
 
@@ -32,7 +33,7 @@ class (Category a) => Arrow a where
 --  second :: (VNat n, VNat j, VAdd j n jn) 
 --         => a (Vec j b) (Vec j b) -> a (Vec jn b) (Vec jn b)
 
-    firsts :: (VNat n, VNat nj) -- VLt n nj
+    firsts :: (VNat n, VNat nj, VLt n nj VTrue)
            => n -> a (Vec n b) (Vec n b) -> a (Vec nj b) (Vec nj b)
 
     (***)  :: (VNat n, VNat j, VAdd n j nj) 
