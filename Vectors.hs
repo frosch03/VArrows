@@ -106,3 +106,45 @@ instance (VNat n)
 instance (VNat n, VNat j, VLs n j b) 
     => VLs (VSucc n) (VSucc j) b
     where vLs n j = vLs (vPred n) (vPred j)
+
+
+-- GreaterThen check (>=)
+class (VNat a, VNat b, VBool ab) 
+    => VGt a b ab | a b -> ab
+    where vGt :: a -> b -> ab
+
+instance (VNat n) 
+    => VGt (VSucc n) VZero VTrue
+    where vGt _ _ = vTrue
+
+instance VGt VZero VZero VTrue
+    where vGt _ _ = vTrue
+
+instance (VNat n) 
+    => VGt VZero (VSucc n) VFalse
+    where vGt _ _ = vFalse
+
+instance (VNat n, VNat j, VGt n j b) 
+    => VGt (VSucc n) (VSucc j) b
+    where vGt n j = vGt (vPred n) (vPred j)
+
+
+-- Greater check (>)
+class (VNat a, VNat b, VBool ab) 
+    => VGs a b ab | a b -> ab
+    where vGs :: a -> b -> ab
+
+instance (VNat n) 
+    => VGs (VSucc n) VZero VTrue
+    where vGs _ _ = vTrue
+
+instance VGs VZero VZero VFalse
+    where vGs _ _ = vFalse
+
+instance (VNat n) 
+    => VGs VZero (VSucc n) VFalse
+    where vGs _ _ = vFalse
+
+instance (VNat n, VNat j, VGs n j b) 
+    => VGs (VSucc n) (VSucc j) b
+    where vGs n j = vGs (vPred n) (vPred j)
