@@ -2,6 +2,16 @@
 module Vectors 
 where
 
+--| This is the datatype definition of a vector 
+data Vec n a where
+    T    :: Vec VZero a
+    (:.) :: (VNat n) => a -> (Vec n a) -> (Vec (VSucc n) a)
+
+infixr 6 :.
+
+
+
+-- The Type level Arithmetics start here 
 
 class VNat a
 
@@ -21,13 +31,6 @@ vSucc _ = undefined
 vPred :: (VNat n) => VSucc n -> n
 vPred _ = undefined
 
-
-
-data Vec n a where
-    T    :: Vec VZero a
-    (:.) :: (VNat n) => a -> (Vec n a) -> (Vec (VSucc n) a)
-
-infixr 6 :.
 
 
 class (VNat a, VNat b, VNat ab) => VAdd a b ab | a b -> ab, a ab -> b
