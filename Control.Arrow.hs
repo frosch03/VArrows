@@ -36,6 +36,9 @@ class (Category a) => Arrow a where
     firsts :: (VNat n, VNat nj, VLs n nj VTrue)
            => n -> a (Vec n b) (Vec n b) -> a (Vec nj b) (Vec nj b)
 
+    lasts  :: (VNat n, VNat nj, VLs  n nj VTrue) 
+           => n -> a (Vec n b) (Vec n b) -> a (Vec nj b) (Vec nj b)
+
     (***)  :: (VNat n, VNat j, VAdd n j nj) 
            => a (Vec n b) (Vec n b) -> a (Vec j b) (Vec j b) -> a (Vec nj b) (Vec nj b)
 
