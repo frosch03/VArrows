@@ -23,11 +23,37 @@ class (Category a) => Arrow a where
     arr    :: (VNat n) 
            => (Vec n b -> Vec n b) -> a (Vec n b) (Vec n b)
 
-    firsts :: (VNat n, VNat nj, VLs n nj VTrue)
-           => n -> a (Vec n b) (Vec n b) -> a (Vec nj b) (Vec nj b)
+--  firsts :: (VNat n, VNat nj, VLs n nj VTrue)
+--         => n -> a (Vec n b) (Vec n b) -> a (Vec nj b) (Vec nj b)
 
-    lasts  :: (VNat n, VNat nj, VLs  n nj VTrue) 
-           => n -> a (Vec n b) (Vec n b) -> a (Vec nj b) (Vec nj b)
+--  lasts  :: (VNat n, VNat nj, VLs  n nj VTrue) 
+--         => n -> a (Vec n b) (Vec n b) -> a (Vec nj b) (Vec nj b)
+
+
+    init   :: ( VNat n, VNat m
+              , VAdd n m nm
+              , VEq (VSucc n) nm VTrue
+              )
+           => a (Vec nm b) (Vec nm b) -> a (Vec n b) (Vec n b)
+
+    tail   :: ( VNat n, VNat m
+              , VAdd n m nm
+              , VEq nm (VSucc m) VTrue
+              )
+           => a (Vec nm b) (Vec nm b) -> a (Vec m b) (Vec m b)
+
+    head   :: ( VNat n, VNat m
+              , VAdd n m nm
+              , VEq nm (VSucc m) VTrue
+              )
+           => a (Vec nm b) (Vec nm b) -> a (Vec n b) (Vec n b)
+
+    last   :: ( VNat n, VNat m
+              , VAdd n m nm
+              , VEq (VSucc n) nm VTrue
+              )
+           => a (Vec nm b) (Vec nm b) -> a (Vec m b) (Vec m b)
+
 
     (***)  :: (VNat n, VNat j, VAdd n j nj) 
            => a (Vec n b) (Vec n b) -> a (Vec j b) (Vec j b) -> a (Vec nj b) (Vec nj b)

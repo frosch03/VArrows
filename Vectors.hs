@@ -52,6 +52,27 @@ vPred _ = undefined
 
 
 
+-- Equals
+class (VNat a, VNat b, VBool eq)
+    => VEq a b eq | a b -> eq
+    where vEq :: a -> b -> eq 
+
+instance VEq VZero VZero VTrue
+    where vEq _ _ = vTrue
+
+instance (VNat a)
+    => VEq (VSucc a) VZero VFalse
+    where vEq _ _ = vFalse
+
+instance (VNat b)
+    => VEq VZero (VSucc b) VFalse
+    where vEq _ _ = vFalse
+
+instance (VNat a, VNat b, VEq a b eq)
+    => VEq (VSucc a) (VSucc b) (eq) 
+    where vEq a b = vEq (vPred a) (vPred b)
+
+
 -- Addition 
 class (VNat a, VNat b, VNat ab) 
     => VAdd a b ab | a b -> ab, a ab -> b
