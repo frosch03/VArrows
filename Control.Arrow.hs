@@ -49,8 +49,8 @@ class (Category a) => Arrow a where
            => a (Vec nm b) (Vec nm b) -> a (Vec m b) (Vec m b)
 
 
-    (***)  :: (VNat n, VNat j, VAdd n j nj) 
-           => a (Vec n b) (Vec n b) -> a (Vec j b) (Vec j b) -> a (Vec nj b) (Vec nj b)
+    (***)  :: (VNat n, VNat m, VAdd n m nm) 
+           => a (Vec n b) (Vec n b) -> a (Vec m b) (Vec m b) -> a (Vec nm b) (Vec nm b)
 
     (&&&)  :: (VNat n, VAdd n n nn) 
            => a (Vec n b) (Vec n b) -> a (Vec n b) (Vec n b) -> a (Vec n b) (Vec nn b)
