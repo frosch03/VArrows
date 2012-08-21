@@ -23,12 +23,6 @@ class (Category a) => Arrow a where
     arr    :: (VNat n) 
            => (Vec n b -> Vec n b) -> a (Vec n b) (Vec n b)
 
---  firsts :: (VNat n, VNat nj, VLs n nj VTrue)
---         => n -> a (Vec n b) (Vec n b) -> a (Vec nj b) (Vec nj b)
-
---  lasts  :: (VNat n, VNat nj, VLs  n nj VTrue) 
---         => n -> a (Vec n b) (Vec n b) -> a (Vec nj b) (Vec nj b)
-
 
     init   :: ( VNat n, VNat m
               , VAdd n m nm
